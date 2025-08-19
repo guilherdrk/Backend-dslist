@@ -1,4 +1,7 @@
 package com.guilherdrk.dslist.repository;
 
-public interface GameRepository {
+import com.guilherdrk.dslist.model.Game;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface GameRepository extends JpaRepository<Game, Long> {
 }
