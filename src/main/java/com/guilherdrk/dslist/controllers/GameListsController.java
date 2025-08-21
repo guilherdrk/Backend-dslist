@@ -2,13 +2,11 @@ package com.guilherdrk.dslist.controllers;
 
 import com.guilherdrk.dslist.dto.GameListDTO;
 import com.guilherdrk.dslist.dto.GameMinDTO;
+import com.guilherdrk.dslist.dto.ReplacementeDTO;
 import com.guilherdrk.dslist.services.GameListService;
 import com.guilherdrk.dslist.services.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,4 +30,14 @@ public class GameListsController {
 
         return result;
     }
+
+    @PostMapping(value = "/{listId}/replacement")
+    public void moveListReplacement(@PathVariable Long listId, @RequestBody ReplacementeDTO body){
+        gameListService.move(listId, body.getSourceIndex(), body.getDestinationIndex());
+    }
+
+//    SELECT TB_BELONGING .*, TB_GAME.TITLE FROM TB_BELONGING
+//    INNER JOIN TB_GAME ON TB_GAME.ID = TB_BELONGING.GAME_ID
+//    WHERE LIST_ID = 2
+//    ORDER BY POSITION
 }
