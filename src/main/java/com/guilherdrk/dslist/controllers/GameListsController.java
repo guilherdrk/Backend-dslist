@@ -1,18 +1,25 @@
 package com.guilherdrk.dslist.controllers;
 
+import com.guilherdrk.dslist.controllers.docs.GameListsControllerDocs;
+import com.guilherdrk.dslist.dto.GameDTO;
 import com.guilherdrk.dslist.dto.GameListDTO;
 import com.guilherdrk.dslist.dto.GameMinDTO;
 import com.guilherdrk.dslist.dto.ReplacementeDTO;
 import com.guilherdrk.dslist.services.GameListService;
 import com.guilherdrk.dslist.services.GameService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/lists")
-public class GameListsController {
+public class GameListsController implements GameListsControllerDocs {
 
     @Autowired
     private GameListService gameListService;
@@ -20,11 +27,13 @@ public class GameListsController {
     private GameService gameService;
 
     @GetMapping
+    @Override
     public List<GameListDTO> findAll(){
         return gameListService.findAll();
     }
 
     @GetMapping(value = "/{listId}/games")
+    @Override
     public List<GameMinDTO> findByList(@PathVariable Long listId){
         List<GameMinDTO> result = gameService.findByList(listId);
 
@@ -32,6 +41,7 @@ public class GameListsController {
     }
 
     @PostMapping(value = "/{listId}/replacement")
+    @Override
     public void moveListReplacement(@PathVariable Long listId, @RequestBody ReplacementeDTO body){
         gameListService.move(listId, body.getSourceIndex(), body.getDestinationIndex());
     }
